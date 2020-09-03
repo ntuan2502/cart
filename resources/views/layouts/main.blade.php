@@ -94,30 +94,44 @@
                             <li class="cart-icon">
                                 <a href="#">
                                     <i class="icon_bag_alt"></i>
-                                    @if (Cart::instance('default')->count() > 0)
-                                        <span>{{ Cart::instance('default')->count() }}</span>
+                                    @if ($cart_count > 0)
+                                        <span>{{ $cart_count }}</span>
                                     @endif
                                 </a>
                                 <div class="cart-hover">
                                     <div class="select-items">
                                         <table>
                                             <tbody>
-                                                @foreach (Cart::content() as $item)
+                                                @foreach ($cart_content as $item)
                                                     <tr>
-                                                        <td class="si-pic"><a href="{{ route('shop.show', $item->model->slug) }}"><img src="img/select-product-1.jpg" alt=""></a>
+                                                        <td class="si-pic">
+                                                            <a href="{{ route('shop.show', $item->model->slug) }}">
+                                                                <img src="img/select-product-1.jpg" alt="">
+                                                            </a>
                                                         </td>
                                                         <td class="si-text">
                                                             <div class="product-selected">
-                                                                <p>{{ pricetoVND($item->model->price) }} x {{$item->qty}}</p>
-                                                                <h6><a href="{{ route('shop.show', $item->model->slug) }}">{{ $item->model->name }}</a></h6>
+                                                                <p>
+                                                                    {{ pricetoVND($item->model->price) }} x
+                                                                    {{ $item->qty }}
+                                                                </p>
+                                                                <h6>
+                                                                    <a
+                                                                        href="{{ route('shop.show', $item->model->slug) }}">
+                                                                        {{ $item->model->name }}
+                                                                    </a>
+                                                                </h6>
                                                             </div>
                                                         </td>
                                                         <form action="{{ route('cart.destroy', $item->rowId) }}"
                                                             method="POST">
                                                             {{ csrf_field() }}
                                                             {{ method_field('DELETE') }}
-                                                            <td class="si-close"><button type="submit"><i
-                                                                        class="ti-close"></i></button></td>
+                                                            <td class="si-close">
+                                                                <button type="submit">
+                                                                    <i class="ti-close"></i>
+                                                                </button>
+                                                            </td>
                                                         </form>
                                                     </tr>
                                                 @endforeach
@@ -125,16 +139,33 @@
                                         </table>
                                     </div>
                                     <div class="select-total">
+                                        <span>subtotal:</span>
+                                        <h5>{{ $cart_subtotal }}</h5>
+                                    </div>
+                                    <div class="select-total">
+                                        <span>discount ({{$coupon_name}}):</span>
+                                        <h5>{{ $discount }}</h5>
+                                    </div>
+                                    <div class="select-total">
+                                        <span>new subtotal:</span>
+                                        <h5>{{ $cart_newSubtotal }}</h5>
+                                    </div>
+                                    <div class="select-total">
+                                        <span>tax ({{$cart_taxValue}}):</span>
+                                        <h5>{{ $cart_newTax }}</h5>
+                                    </div>
+                                    <div class="select-total">
                                         <span>total:</span>
-                                        <h5>{{pricetoVND(Cart::total())}}</h5>
+                                        <h5>{{ $cart_newTotal }}</h5>
                                     </div>
                                     <div class="select-button">
                                         <a href="{{ route('cart.index') }}" class="primary-btn view-card">VIEW CARD</a>
-                                        <a href="{{route('checkout.index')}}" class="primary-btn checkout-btn">CHECK OUT</a>
+                                        <a href="{{ route('checkout.index') }}" class="primary-btn checkout-btn">CHECK
+                                            OUT</a>
                                     </div>
                                 </div>
                             </li>
-                            <li class="cart-price">{{pricetoVND(Cart::total())}}</li>
+                            <li class="cart-price">{{ $cart_newTotal }}</li>
                         </ul>
                     </div>
                 </div>
@@ -164,9 +195,11 @@
                         <li><a href="{{ route('shop.index') }}">Shop</a></li>
                         <li><a href="#">Collection</a>
                             <ul class="dropdown">
-                                <li><a href="#">Men's</a></li>
-                                <li><a href="#">Women's</a></li>
-                                <li><a href="#">Kid's</a></li>
+                                @foreach ($categories as $category)
+                                    <li><a
+                                            href="{{ route('shop.index', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                         <li><a href="./blog.html">Blog</a></li>
@@ -174,8 +207,8 @@
                         <li><a href="#">Pages</a>
                             <ul class="dropdown">
                                 <li><a href="./blog-details.html">Blog Details</a></li>
-                                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                <li><a href="./check-out.html">Checkout</a></li>
+                                <li><a href="{{ route('cart.index') }}">Cart</a></li>
+                                <li><a href="{{ route('checkout.index') }}">Checkout</a></li>
                                 <li><a href="./faq.html">Faq</a></li>
                                 <li><a href="./register.html">Register</a></li>
                                 <li><a href="./login.html">Login</a></li>

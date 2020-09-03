@@ -69,7 +69,7 @@
                                 <label for="phone">Phone<span>*</span></label>
                                 <input type="text" id="phone">
                             </div>
-                            
+
                             <div class="col-lg-12">
                                 <div class="create-item">
                                     <label for="acc-create">
@@ -83,20 +83,27 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="checkout-content">
-                            <input type="text" placeholder="Enter Your Coupon Code">
+                            <input type="text" placeholder="" readonly>
                         </div>
                         <div class="place-order">
                             <h4>Your Order</h4>
                             <div class="order-total">
                                 <ul class="order-table">
                                     <li>Product <span>Total</span></li>
-                                    @foreach (Cart::content() as $item)
-                                        <li class="fw-normal">{{ $item->model->name }} x {{$item->qty}}
-                                            <span>{{ pricetoVND($item->model->price) }}</span></li>
+                                    @foreach ($cart_content as $item)
+                                        <li class="fw-normal">{{ $item->model->name }} x {{ $item->qty }}
+                                            <span>{{ $item->vnd_price }}</span></li>
                                     @endforeach
-                                    <li class="fw-normal">Subtotal <span>{{ pricetoVND(Cart::subtotal()) }}</span></li>
-                                    <li class="fw-normal">Tax <span>{{ pricetoVND(Cart::tax()) }}</span></li>
-                                    <li class="total-price">Total <span>{{ pricetoVND(Cart::total()) }}</span></li>
+                                    <li class="total-price">Subtotal <span>{{ $cart_subtotal }}</span></li>
+                                    @if (session()->get('coupon'))
+                                        <li class="fw-normal">Discount ({{ $coupon_name }})
+                                            <span>{{ $discount }}</span>
+                                        </li>
+                                    @endif
+
+                                    <li class="total-price">New Subtotal <span>{{ $cart_newSubtotal }}</span></li>
+                                    <li class="fw-normal">Tax ({{ $cart_taxValue }}) <span>{{ $cart_newTax }}</span></li>
+                                    <li class="total-price">Total <span>{{ $cart_newTotal }}</span></li>
                                 </ul>
                                 <div class="payment-check">
                                     <div class="pc-item">

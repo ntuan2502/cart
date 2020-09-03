@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Coupon;
+use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 
 class CouponsController extends Controller
@@ -34,7 +36,30 @@ class CouponsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $coupon = Coupon::where('code', $request->coupon_code)->first();
+        if (!$coupon) {
+            return redirect()->route('cart.index')->withErrors('Invalid coupon code. Please try again.');
+        }
+        $discount = 0;
+        if ($coupon->type == 'fixed') {
+            if (Cart::subtotal() < $coupon->min_price) {
+                return redirect()->route('cart.index')->withErrors('Giá tiền nhỏ hơn yêu cầu coupon.');
+            } else {
+                $discount = $coupon->discount(Cart::subtotal());
+            }
+        } elseif ($coupon->type == 'percent') {
+            if ($coupon->discount(Cart::subtotal()) > $coupon->max_discount) {
+                $discount = $coupon->max_discount;
+            } else {
+                $discount = $coupon->discount(Cart::subtotal());
+            }
+        }
+        session()->put('coupon', [
+            'name' => $coupon->code,
+            'discount' => $discount,
+        ]);
+
+        return redirect()->route('cart.index');
     }
 
     /**
@@ -77,8 +102,9 @@ class CouponsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        //
+        session()->forget('coupon');
+        return redirect()->route('cart.index');
     }
 }

@@ -14,7 +14,9 @@ class CartController extends Controller
      */
     public function index()
     {
-        return view('cart');
+        return view('cart')->with([
+
+        ]);
     }
 
     /**
@@ -35,11 +37,11 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $duplicates = Cart::search(function($cartItem, $rowId) use ($request){
+        $duplicates = Cart::search(function ($cartItem, $rowId) use ($request) {
             return $cartItem->id === $request->id;
         });
 
-        if($duplicates->isNotEmpty()){
+        if ($duplicates->isNotEmpty()) {
             return redirect()->route('cart.index');
         }
         Cart::add($request->id, $request->name, $request->qty, $request->price)->associate('App\Product');

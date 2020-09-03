@@ -26,8 +26,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    @if (Cart::count() > 0)
-                        <h3>{{ Cart::count() }} item(s) in Shopping Cart</h3>
+                    @if ($cart_count > 0)
+                        <h3>{{ $cart_count }} item(s) in Shopping Cart</h3>
                         <div class="cart-table">
                             <table>
                                 <thead>
@@ -41,7 +41,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (Cart::content() as $item)
+                                    @foreach ($cart_content as $item)
                                         <tr>
                                             <td class="cart-pic first-row"><a
                                                     href="{{ route('shop.show', $item->model->slug) }}"><img
@@ -52,7 +52,7 @@
                                                         href="{{ route('shop.show', $item->model->slug) }}">{{ $item->model->name }}</a>
                                                 </h5>
                                             </td>
-                                            <td class="p-price first-row">{{ pricetoVND($item->model->price) }}</td>
+                                            <td class="p-price first-row">{{ $item->vnd_price }}</td>
                                             <td class="qua-col first-row">
                                                 <div class="quantity">
                                                     <div class="pro-qty">
@@ -62,7 +62,7 @@
                                                 </div>
                                             </td>
                                             <td class="total-price first-row">
-                                                {{ pricetoVND($item->subtotal) }}</td>
+                                                {{ $item->vnd_subtotal }}</td>
 
                                             <form action="{{ route('cart.destroy', $item->rowId) }}" method="POST">
                                                 {{ csrf_field() }}
@@ -84,18 +84,36 @@
                                 </div>
                                 <div class="discount-coupon">
                                     <h6>Discount Codes</h6>
-                                    <form action="#" class="coupon-form">
-                                        <input type="text" placeholder="Enter your codes">
-                                        <button type="submit" class="site-btn coupon-btn">Apply</button>
-                                    </form>
+                                    @if (session()->get('coupon'))
+                                        <form action="{{ route('coupon.destroy') }}" class="coupon-form" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('DELETE') }}
+                                            <input type="text" value="{{ session()->get('coupon')['name'] }}" readonly>
+                                            <button type="submit" class="site-btn coupon-btn">Remove</button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('coupon.store') }}" class="coupon-form" method="POST">
+                                            {{ csrf_field() }}
+                                            <input type="text" name="coupon_code" id="coupon_code"
+                                                placeholder="Enter your codes">
+                                            <button type="submit" class="site-btn coupon-btn">Apply</button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                             <div class="col-lg-4 offset-lg-4">
                                 <div class="proceed-checkout">
                                     <ul>
-                                        <li class="subtotal">Subtotal <span>{{ pricetoVND(Cart::subtotal()) }}</span></li>
-                                        <li class="subtotal">Tax <span>{{ pricetoVND(Cart::tax()) }}</span></li>
-                                        <li class="cart-total">Total <span>{{ pricetoVND(Cart::total()) }}</span></li>
+                                        <li class="cart-total">Subtotal <span>{{ $cart_subtotal }}</span></li>
+                                        @if (session()->get('coupon'))
+                                            <li class="subtotal">Discount ({{ $coupon_name }})
+                                                <span>{{ $discount }}</span>
+                                            </li>
+                                            <li class="cart-total">New Subtotal <span>{{ $cart_newSubtotal }}</span></li>
+                                        @endif
+                                        <li class="subtotal">Tax ({{ $cart_taxValue }}) <span>{{ $cart_newTax }}</span>
+                                        </li>
+                                        <li class="cart-total">Total <span>{{ $cart_newTotal }}</span></li>
                                     </ul>
                                     <a href="{{ route('checkout.index') }}" class="proceed-btn">PROCEED TO CHECK OUT</a>
                                 </div>
@@ -119,8 +137,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         /*-------------------
-                                  Quantity change
-                                 --------------------- */
+                                                                              Quantity change
+                                                                             --------------------- */
         var proQty = $('.pro-qty');
         proQty.prepend('<span class="dec qtybtn">-</span>');
         proQty.append('<span class="inc qtybtn">+</span>');
@@ -145,7 +163,7 @@
                     quantity: newVal,
                 })
                 .then(function(response) {
-                    window.location.href = '{{route('cart.index')}}'
+                    window.location.href = `{{ route('cart.index') }}`;
                     console.log(response);
                 })
                 .catch(function(error) {

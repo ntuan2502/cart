@@ -16,9 +16,8 @@ class ShopController extends Controller
     public function index()
     {
         $pagination = 9;
-        $categories = Category::all();
         if (request()->category) {
-            $category = $categories->where('slug', request()->category)->first();
+            $category = Category::where('slug', request()->category)->first();
             $queryProduct = Product::where('category_id', $category->id);
             $products = $queryProduct;
             $countProducts = $queryProduct->count();
@@ -27,12 +26,10 @@ class ShopController extends Controller
             $products = $queryProduct->inRandomOrder();
             $countProducts = $queryProduct->count();
         }
-        $categories = Category::all();
         $products = $products->paginate($pagination);
         return view('shop')->with([
             'products' => $products,
             'countProducts' => $countProducts,
-            'categories' => $categories,
         ]);
     }
 
@@ -66,13 +63,11 @@ class ShopController extends Controller
     public function show($slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();
-        $categories = Category::all();
         $relatedProducts = Product::where('slug', '!=', $slug)->relatedProducts()->get();
 
         return view('product')->with([
             'product' => $product,
             'relatedProducts' => $relatedProducts,
-            'categories' => $categories,
         ]);
     }
 
