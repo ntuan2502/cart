@@ -15,7 +15,10 @@ class LandingPageController extends Controller
     public function index()
     {
         $products = Product::inRandomOrder()->take(8)->get();
-        
+        foreach ($products as $product) {
+            $product->vnd_price = pricetoVND($product->price);
+        }
+
         return view('landing-page')->with([
             'products' => $products
         ]);

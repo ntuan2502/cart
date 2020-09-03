@@ -189,7 +189,7 @@
                                 </div>
                                 <div class="pd-desc">
                                     <p>{{ $product->description }}</p>
-                                    <h4>{{ pricetoVND($product->price) }}<span>{{ pricetoVND($product->price) }}</span></h4>
+                                    <h4>{{ $product->vnd_price }}<span>{{ $product->vnd_price }}</span></h4>
                                 </div>
                                 <div class="pd-color">
                                     <h6>Color</h6>
@@ -459,8 +459,8 @@
                                     <h5>{{ $product->name }}</h5>
                                 </a>
                                 <div class="product-price">
-                                    {{ pricetoVND($product->price) }}
-                                    <span>{{ pricetoVND($product->price) }}</span>
+                                    {{ $product->vnd_price }}
+                                    <span>{{ $product->vnd_price }}</span>
                                 </div>
                             </div>
                         </div>

@@ -191,8 +191,8 @@
                                                 <h5>{{ $product->name }}</h5>
                                             </a>
                                             <div class="product-price">
-                                                {{ pricetoVND($product->price) }}
-                                                <span>{{ pricetoVND($product->price) }}</span>
+                                                {{ $product->vnd_price }}
+                                                <span>{{ $product->vnd_price }}</span>
                                             </div>
                                         </div>
                                     </div>

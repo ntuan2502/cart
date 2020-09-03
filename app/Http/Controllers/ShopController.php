@@ -21,12 +21,17 @@ class ShopController extends Controller
             $queryProduct = Product::where('category_id', $category->id);
             $products = $queryProduct;
             $countProducts = $queryProduct->count();
-        }else {
+        } else {
             $queryProduct = Product::where([]);
             $products = $queryProduct->inRandomOrder();
             $countProducts = $queryProduct->count();
         }
         $products = $products->paginate($pagination);
+
+        foreach ($products as $product) {
+            $product->vnd_price = pricetoVND($product->price);
+        }
+        
         return view('shop')->with([
             'products' => $products,
             'countProducts' => $countProducts,
@@ -64,6 +69,11 @@ class ShopController extends Controller
     {
         $product = Product::where('slug', $slug)->firstOrFail();
         $relatedProducts = Product::where('slug', '!=', $slug)->relatedProducts()->get();
+
+        $product->vnd_price = pricetoVND($product->price);
+        foreach ($relatedProducts as $product) {
+            $product->vnd_price = pricetoVND($product->price);
+        }
 
         return view('product')->with([
             'product' => $product,

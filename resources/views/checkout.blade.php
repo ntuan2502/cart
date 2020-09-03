@@ -95,14 +95,14 @@
                                             <span>{{ $item->vnd_price }}</span></li>
                                     @endforeach
                                     <li class="total-price">Subtotal <span>{{ $cart_subtotal }}</span></li>
-                                    @if (session()->get('coupon'))
+                                    @if ($coupon)
                                         <li class="fw-normal">Discount ({{ $coupon_name }})
-                                            <span>{{ $discount }}</span>
+                                            <span>{{ $coupon_discount }}</span>
                                         </li>
                                     @endif
 
                                     <li class="total-price">New Subtotal <span>{{ $cart_newSubtotal }}</span></li>
-                                    <li class="fw-normal">Tax ({{ $cart_taxValue }}) <span>{{ $cart_newTax }}</span></li>
+                                    <li class="fw-normal">Tax ({{ $cart_taxPercent }}) <span>{{ $cart_newTax }}</span></li>
                                     <li class="total-price">Total <span>{{ $cart_newTotal }}</span></li>
                                 </ul>
                                 <div class="payment-check">

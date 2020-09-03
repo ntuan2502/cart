@@ -27,9 +27,10 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function ($view) {
-            $cart_taxValue = config('cart.tax');
-            $discount = session()->get('coupon')['discount'] ?? 0;
-            $coupon_name = session()->get('coupon')['name'] ?? '';
+            $cart_taxPercent = config('cart.tax');
+            $coupon = session()->get('coupon');
+            $coupon_discount = $coupon['discount'] ?? 0;
+            $coupon_name = $coupon['name'] ?? '';
             $cart_content = Cart::content();
             $cart_count = Cart::count();
             foreach ($cart_content as $item) {
@@ -37,21 +38,22 @@ class ViewServiceProvider extends ServiceProvider
                 $item->vnd_subtotal = pricetoVND($item->subtotal);
             }
             $cart_subtotal = Cart::subtotal();
-            $cart_newSubtotal = $cart_subtotal - $discount;
-            $cart_newTax = $cart_newSubtotal * $cart_taxValue / 100;
+            $cart_newSubtotal = $cart_subtotal - $coupon_discount;
+            $cart_newTax = $cart_newSubtotal * $cart_taxPercent / 100;
             $cart_newTotal = $cart_newSubtotal + $cart_newTax;
             $categories = Category::all();
             $view->with([
-                'cart_taxValue' => $cart_taxValue . '%',
                 'cart_content' => $cart_content,
                 'cart_count' => $cart_count,
                 'cart_subtotal' => pricetoVND($cart_subtotal),
+                'coupon' => $coupon,
+                'coupon_name' => $coupon_name,
+                'coupon_discount' => pricetoVND($coupon_discount),
                 'cart_newSubtotal' => pricetoVND($cart_newSubtotal),
+                'cart_taxPercent' => $cart_taxPercent . '%',
                 'cart_newTax' => pricetoVND($cart_newTax),
                 'cart_newTotal' => pricetoVND($cart_newTotal),
                 'categories' => $categories,
-                'coupon_name' => $coupon_name,
-                'discount' => pricetoVND($discount),
             ]);
         });
     }

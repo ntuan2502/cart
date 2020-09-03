@@ -112,7 +112,7 @@
                                                         <td class="si-text">
                                                             <div class="product-selected">
                                                                 <p>
-                                                                    {{ pricetoVND($item->model->price) }} x
+                                                                    {{ $item->vnd_price }} x
                                                                     {{ $item->qty }}
                                                                 </p>
                                                                 <h6>
@@ -144,14 +144,14 @@
                                     </div>
                                     <div class="select-total">
                                         <span>discount ({{$coupon_name}}):</span>
-                                        <h5>{{ $discount }}</h5>
+                                        <h5>{{ $coupon_discount }}</h5>
                                     </div>
                                     <div class="select-total">
                                         <span>new subtotal:</span>
                                         <h5>{{ $cart_newSubtotal }}</h5>
                                     </div>
                                     <div class="select-total">
-                                        <span>tax ({{$cart_taxValue}}):</span>
+                                        <span>tax ({{$cart_taxPercent}}):</span>
                                         <h5>{{ $cart_newTax }}</h5>
                                     </div>
                                     <div class="select-total">

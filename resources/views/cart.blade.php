@@ -84,11 +84,11 @@
                                 </div>
                                 <div class="discount-coupon">
                                     <h6>Discount Codes</h6>
-                                    @if (session()->get('coupon'))
+                                    @if ($coupon)
                                         <form action="{{ route('coupon.destroy') }}" class="coupon-form" method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
-                                            <input type="text" value="{{ session()->get('coupon')['name'] }}" readonly>
+                                            <input type="text" value="{{ $coupon_name }}" readonly>
                                             <button type="submit" class="site-btn coupon-btn">Remove</button>
                                         </form>
                                     @else
@@ -105,13 +105,13 @@
                                 <div class="proceed-checkout">
                                     <ul>
                                         <li class="cart-total">Subtotal <span>{{ $cart_subtotal }}</span></li>
-                                        @if (session()->get('coupon'))
+                                        @if ($coupon)
                                             <li class="subtotal">Discount ({{ $coupon_name }})
-                                                <span>{{ $discount }}</span>
+                                                <span>{{ $coupon_discount }}</span>
                                             </li>
                                             <li class="cart-total">New Subtotal <span>{{ $cart_newSubtotal }}</span></li>
                                         @endif
-                                        <li class="subtotal">Tax ({{ $cart_taxValue }}) <span>{{ $cart_newTax }}</span>
+                                        <li class="subtotal">Tax ({{ $cart_taxPercent }}) <span>{{ $cart_newTax }}</span>
                                         </li>
                                         <li class="cart-total">Total <span>{{ $cart_newTotal }}</span></li>
                                     </ul>
