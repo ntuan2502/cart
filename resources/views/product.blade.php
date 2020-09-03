@@ -27,11 +27,11 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="filter-widget">
-                        <h4 class="fw-title">Categories</h4>
+                        <h4 class="fw-title">Classifies</h4>
                         <ul class="filter-catagories">
-                            @foreach ($categories as $category)
+                            @foreach ($classifies as $classify)
                                 <li><a
-                                        href="{{ route('shop.index', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                                        href="{{ route('shop.index', ['classify' => $classify->slug]) }}">{{ $classify->name }}</a>
                                 </li>
                             @endforeach
                         </ul>
@@ -188,7 +188,7 @@
                                     <span>(5)</span>
                                 </div>
                                 <div class="pd-desc">
-                                    <p>{{ $product->description }}</p>
+                                    <p>{!! $product->description !!}</p>
                                     <h4>{{ $product->vnd_price }}<span>{{ $product->vnd_price }}</span></h4>
                                 </div>
                                 <div class="pd-color">
@@ -476,8 +476,8 @@
 @section('js')
     <script>
         /*-------------------
-          Quantity change
-         --------------------- */
+                  Quantity change
+                 --------------------- */
         var proQty = $('.pro-qty');
         proQty.prepend('<span class="dec qtybtn">-</span>');
         proQty.append('<span class="inc qtybtn">+</span>');
@@ -496,6 +496,10 @@
             }
             $button.parent().find('input').val(newVal);
 
+            $('#addToCart').find('[name="qty"]').val(newVal);
+        });
+        proQty.on('change', function() {
+            var newVal = $(this).find('input').val();
             $('#addToCart').find('[name="qty"]').val(newVal);
         });
 

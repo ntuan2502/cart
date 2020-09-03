@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Category;
+use App\Classify;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -41,7 +41,7 @@ class ViewServiceProvider extends ServiceProvider
             $cart_newSubtotal = $cart_subtotal - $coupon_discount;
             $cart_newTax = $cart_newSubtotal * $cart_taxPercent / 100;
             $cart_newTotal = $cart_newSubtotal + $cart_newTax;
-            $categories = Category::all();
+            $classifies = Classify::all();
             $view->with([
                 'cart_content' => $cart_content,
                 'cart_count' => $cart_count,
@@ -53,7 +53,7 @@ class ViewServiceProvider extends ServiceProvider
                 'cart_taxPercent' => $cart_taxPercent . '%',
                 'cart_newTax' => pricetoVND($cart_newTax),
                 'cart_newTotal' => pricetoVND($cart_newTotal),
-                'categories' => $categories,
+                'classifies' => $classifies,
             ]);
         });
     }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Classify;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -16,9 +16,9 @@ class ShopController extends Controller
     public function index()
     {
         $pagination = 9;
-        if (request()->category) {
-            $category = Category::where('slug', request()->category)->first();
-            $queryProduct = Product::where('category_id', $category->id);
+        if (request()->classify) {
+            $classify = Classify::where('slug', request()->classify)->first();
+            $queryProduct = Product::where('classify_id', $classify->id);
             $products = $queryProduct;
             $countProducts = $queryProduct->count();
         } else {
@@ -71,8 +71,8 @@ class ShopController extends Controller
         $relatedProducts = Product::where('slug', '!=', $slug)->relatedProducts()->get();
 
         $product->vnd_price = pricetoVND($product->price);
-        foreach ($relatedProducts as $product) {
-            $product->vnd_price = pricetoVND($product->price);
+        foreach ($relatedProducts as $relatedProduct) {
+            $relatedProduct->vnd_price = pricetoVND($relatedProduct->price);
         }
 
         return view('product')->with([

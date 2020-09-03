@@ -137,8 +137,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         /*-------------------
-                                                                              Quantity change
-                                                                             --------------------- */
+                                                                                  Quantity change
+                                                                                 --------------------- */
         var proQty = $('.pro-qty');
         proQty.prepend('<span class="dec qtybtn">-</span>');
         proQty.append('<span class="inc qtybtn">+</span>');
@@ -159,6 +159,23 @@
             $button.parent().find('input').val(newVal);
 
             const id = $button.parent().find('input').attr('data-id');
+            axios.patch(`/cart/${id}`, {
+                    quantity: newVal,
+                })
+                .then(function(response) {
+                    window.location.href = `{{ route('cart.index') }}`;
+                    console.log(response);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        });
+        proQty.on('change', function() {
+            var newVal = $(this).find('input').val();
+
+            proQty.find('input').val(newVal);
+
+            const id = proQty.find('input').attr('data-id');
             axios.patch(`/cart/${id}`, {
                     quantity: newVal,
                 })

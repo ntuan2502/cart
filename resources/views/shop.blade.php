@@ -25,11 +25,11 @@
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-8 order-2 order-lg-1 produts-sidebar-filter">
                     <div class="filter-widget">
-                        <h4 class="fw-title">Categories</h4>
+                        <h4 class="fw-title">Classify</h4>
                         <ul class="filter-catagories">
-                            @foreach ($categories as $category)
+                            @foreach ($classifies as $classify)
                                 <li><a
-                                        href="{{ route('shop.index', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                                        href="{{ route('shop.index', ['classify' => $classify->slug]) }}">{{ $classify->name }}</a>
                                 </li>
                             @endforeach
                         </ul>

@@ -195,9 +195,9 @@
                         <li><a href="{{ route('shop.index') }}">Shop</a></li>
                         <li><a href="#">Collection</a>
                             <ul class="dropdown">
-                                @foreach ($categories as $category)
+                                @foreach ($classifies as $classify)
                                     <li><a
-                                            href="{{ route('shop.index', ['category' => $category->slug]) }}">{{ $category->name }}</a>
+                                            href="{{ route('shop.index', ['classify' => $classify->slug]) }}">{{ $classify->name }}</a>
                                     </li>
                                 @endforeach
                             </ul>

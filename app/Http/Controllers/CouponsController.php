@@ -50,6 +50,8 @@ class CouponsController extends Controller
         } elseif ($coupon->type == 'percent') {
             if ($coupon->discount(Cart::subtotal()) > $coupon->max_discount) {
                 $discount = $coupon->max_discount;
+            } elseif (Cart::subtotal() < $coupon->min_price) {
+                return redirect()->route('cart.index')->withErrors('Giá tiền nhỏ hơn yêu cầu coupon.');
             } else {
                 $discount = $coupon->discount(Cart::subtotal());
             }

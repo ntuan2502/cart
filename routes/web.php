@@ -3,6 +3,7 @@
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use TCG\Voyager\Facades\Voyager;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/', 'LandingPageController@index')->name('landing-page');
 
@@ -38,3 +35,8 @@ Route::get('/cart/empty', function () {
     Cart::destroy();
     return redirect()->route('cart.index');
 })->name('cart.empty');
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});
