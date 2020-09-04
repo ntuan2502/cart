@@ -100,7 +100,7 @@
                         @foreach ($products as $product)
                             <div class="product-item">
                                 <div class="pi-pic">
-                                    <img src="img/products/women-1.jpg" alt="">
+                                    <img src="{{ asset('storage/' . $product->image) }}" alt="null">
                                     <div class="sale">Sale</div>
                                     <div class="icon">
                                         <i class="icon_heart_alt"></i>

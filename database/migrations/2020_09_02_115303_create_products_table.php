@@ -21,6 +21,8 @@ class CreateProductsTable extends Migration
             $table->integer('price');
             $table->text('description');
             $table->boolean('featured')->default(0);
+            $table->string('image')->nullable();
+            $table->text('images')->nullable();
             $table->integer('classify_id');
             $table->timestamps();
         });

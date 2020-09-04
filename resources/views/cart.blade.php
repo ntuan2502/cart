@@ -1,6 +1,11 @@
 @extends('layouts.main')
 @section('css')
-
+    <style>
+        .img-view-cart {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -43,9 +48,11 @@
                                 <tbody>
                                     @foreach ($cart_content as $item)
                                         <tr>
-                                            <td class="cart-pic first-row"><a
-                                                    href="{{ route('shop.show', $item->model->slug) }}"><img
-                                                        src="img/cart-page/product-1.jpg" alt=""></a>
+                                            <td class="cart-pic first-row">
+                                                <a href="{{ route('shop.show', $item->model->slug) }}">
+                                                    <img src="{{ asset('storage/' . $item->model->image) }}"
+                                                        class="img-view-cart" alt="null">
+                                                </a>
                                             </td>
                                             <td class="cart-title first-row">
                                                 <h5><a
@@ -65,7 +72,7 @@
                                                 {{ $item->vnd_subtotal }}</td>
 
                                             <form action="{{ route('cart.destroy', $item->rowId) }}" method="POST">
-                                                {{ csrf_field() }}
+                                                @csrf
                                                 {{ method_field('DELETE') }}
                                                 <td class="close-td first-row"><button type="submit"><i
                                                             class="ti-close"></i></button></td>
@@ -86,14 +93,14 @@
                                     <h6>Discount Codes</h6>
                                     @if ($coupon)
                                         <form action="{{ route('coupon.destroy') }}" class="coupon-form" method="POST">
-                                            {{ csrf_field() }}
+                                            @csrf
                                             {{ method_field('DELETE') }}
                                             <input type="text" value="{{ $coupon_name }}" readonly>
                                             <button type="submit" class="site-btn coupon-btn">Remove</button>
                                         </form>
                                     @else
                                         <form action="{{ route('coupon.store') }}" class="coupon-form" method="POST">
-                                            {{ csrf_field() }}
+                                            @csrf
                                             <input type="text" name="coupon_code" id="coupon_code"
                                                 placeholder="Enter your codes">
                                             <button type="submit" class="site-btn coupon-btn">Apply</button>
@@ -137,8 +144,8 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         /*-------------------
-                                                                                  Quantity change
-                                                                                 --------------------- */
+                                                                                              Quantity change
+                                                                                             --------------------- */
         var proQty = $('.pro-qty');
         proQty.prepend('<span class="dec qtybtn">-</span>');
         proQty.append('<span class="inc qtybtn">+</span>');

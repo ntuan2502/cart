@@ -23,13 +23,46 @@
     <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
     @yield('css')
+    <style>
+        .img-popup-cart {
+            width: 75px;
+            height: 75px;
+        }
+
+        .nav-custom {
+            float: right;
+            margin-top: 16px;
+            margin-bottom: 13px;
+            background: none;
+        }
+
+        .depart-btn-custom {
+            background: none !important;
+            color: black !important;
+            padding: 0px 100px 0px 0px !important;
+        }
+
+        .nav-item .nav-depart .depart-btn .span-custom {
+            margin-left: 0px;
+        }
+
+        .avatar {
+            width: 20px;
+            margin-right: 10px;
+        }
+        .login-panel-custom{
+            padding-right: 20px;
+            min-width: 120px;
+        }
+
+    </style>
 </head>
 
 <body>
     <!-- Page Preloder -->
-    <div id="preloder">
+    {{-- <div id="preloder">
         <div class="loader"></div>
-    </div>
+    </div> --}}
 
     <!-- Header Section Begin -->
     <header class="header-section">
@@ -46,7 +79,34 @@
                     </div>
                 </div>
                 <div class="ht-right">
-                    <a href="#" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                    @guest
+                        <a href="{{ route('login') }}" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                    @else
+                        {{-- <div class="nav-item nav-custom">
+                            <div class="container">
+                                <div class="nav-depart">
+                                    <div class="depart-btn depart-btn-custom">
+                                        <i class="ti-menu"></i>
+                                        <span class="span-custom">{{ Auth::user()->name }}</span>
+                                        <ul class="depart-hover">
+                                            <li class="active"><a href="#"
+                                                    onclick="event.preventDefault();
+                                                                            document.getElementById('logout-form').submit();">Logout</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> --}}
+                        @if (Auth::user()->role_id == 1)
+                            <a href="/admin" class="login-panel login-panel-custom"><i class="fa fa-user"></i>Admin Panel</a>
+                        @endif
+                        <a href="{{ route('logout') }}" class="login-panel login-panel-custom" onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="" class="avatar">
+                            {{ Auth::user()->name }}
+                        </a>
+                    @endguest
                     <div class="lan-selector">
                         <select class="language_drop" name="countries" id="countries" style="width:300px;">
                             <option value='yt' data-image="img/flag-1.jpg" data-imagecss="flag yt" data-title="English">
@@ -106,7 +166,8 @@
                                                     <tr>
                                                         <td class="si-pic">
                                                             <a href="{{ route('shop.show', $item->model->slug) }}">
-                                                                <img src="img/select-product-1.jpg" alt="">
+                                                                <img src="{{ asset('storage/' . $item->model->image) }}"
+                                                                    class="img-popup-cart" alt="null">
                                                             </a>
                                                         </td>
                                                         <td class="si-text">
@@ -125,7 +186,7 @@
                                                         </td>
                                                         <form action="{{ route('cart.destroy', $item->rowId) }}"
                                                             method="POST">
-                                                            {{ csrf_field() }}
+                                                            @csrf
                                                             {{ method_field('DELETE') }}
                                                             <td class="si-close">
                                                                 <button type="submit">
@@ -143,7 +204,7 @@
                                         <h5>{{ $cart_subtotal }}</h5>
                                     </div>
                                     <div class="select-total">
-                                        <span>discount ({{$coupon_name}}):</span>
+                                        <span>discount ({{ $coupon_name }}):</span>
                                         <h5>{{ $coupon_discount }}</h5>
                                     </div>
                                     <div class="select-total">
@@ -151,7 +212,7 @@
                                         <h5>{{ $cart_newSubtotal }}</h5>
                                     </div>
                                     <div class="select-total">
-                                        <span>tax ({{$cart_taxPercent}}):</span>
+                                        <span>tax ({{ $cart_taxPercent }}):</span>
                                         <h5>{{ $cart_newTax }}</h5>
                                     </div>
                                     <div class="select-total">
@@ -210,8 +271,15 @@
                                 <li><a href="{{ route('cart.index') }}">Cart</a></li>
                                 <li><a href="{{ route('checkout.index') }}">Checkout</a></li>
                                 <li><a href="./faq.html">Faq</a></li>
-                                <li><a href="./register.html">Register</a></li>
-                                <li><a href="./login.html">Login</a></li>
+                                @guest
+                                    <li><a href="{{ route('register') }}">Register</a></li>
+                                    <li><a href="{{ route('login') }}">Login</a></li>
+                                @else
+                                    <li><a href="#"
+                                            onclick="event.preventDefault();
+                                                                    document.getElementById('logout-form').submit();">Logout</a>
+                                    </li>
+                                @endguest
                             </ul>
                         </li>
                     </ul>
@@ -221,6 +289,9 @@
         </div>
     </header>
     <!-- Header End -->
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+        @csrf
+    </form>
 
     @yield('content')
 

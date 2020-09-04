@@ -63,7 +63,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <label for="email">Email Address<span>*</span></label>
-                                <input type="text" id="email">
+                            <input type="text" id="email" value="{{Auth::user()->email}}">
                             </div>
                             <div class="col-lg-6">
                                 <label for="phone">Phone<span>*</span></label>
