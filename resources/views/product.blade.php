@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="product-pic-zoom">
-                                <img class="product-big-img" src="{{ asset('storage/' . $product->image) }}" alt="">
+                                <img class="product-big-img" src="{{ secure_asset('storage/' . $product->image) }}" alt="">
                                 <div class="zoom-icon">
                                     <i class="fa fa-search-plus"></i>
                                 </div>
@@ -41,8 +41,8 @@
                                 <div class="product-thumbs-track ps-slider owl-carousel">
                                     @if ($product->images)
                                         @foreach (json_decode($product->images) as $image)
-                                            <div class="pt" data-imgbigurl="{{ asset('storage/' . $image) }}">
-                                                <img src="{{ asset('storage/' . $image) }}" alt=""></div>
+                                            <div class="pt" data-imgbigurl="{{ secure_asset('storage/' . $image) }}">
+                                                <img src="{{ secure_asset('storage/' . $image) }}" alt=""></div>
                                         @endforeach
                                     @endif
                                 </div>
@@ -318,7 +318,7 @@
                     <div class="col-lg-3 col-sm-6">
                         <div class="product-item">
                             <div class="pi-pic">
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="null">
+                                <img src="{{ secure_asset('storage/' . $product->image) }}" alt="null">
                                 <div class="sale">Sale</div>
                                 <div class="icon">
                                     <i class="icon_heart_alt"></i>

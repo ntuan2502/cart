@@ -65,7 +65,7 @@
                                 <div class="col-lg-4 col-sm-6">
                                     <div class="product-item">
                                         <div class="pi-pic">
-                                            <img src="{{ asset('storage/' . $product->image) }}" alt="null">
+                                            <img src="{{ secure_asset('storage/' . $product->image) }}" alt="null">
                                             <div class="sale pp-sale">Sale</div>
                                             <div class="icon">
                                                 <i class="icon_heart_alt"></i>

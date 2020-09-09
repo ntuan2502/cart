@@ -13,15 +13,15 @@
     <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/elegant-icons.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/nice-select.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/jquery-ui.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ secure_asset('css/bootstrap.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ secure_asset('css/font-awesome.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ secure_asset('css/themify-icons.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ secure_asset('css/elegant-icons.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ secure_asset('css/owl.carousel.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ secure_asset('css/nice-select.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ secure_asset('css/jquery-ui.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ secure_asset('css/slicknav.min.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ secure_asset('css/style.css') }}" type="text/css">
     @yield('css')
     <style>
         .img-popup-cart {
@@ -103,7 +103,7 @@
                         @endif
                         <a href="{{ route('logout') }}" class="login-panel login-panel-custom" onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
-                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="" class="avatar">
+                            <img src="{{ secure_asset('storage/' . Auth::user()->avatar) }}" alt="" class="avatar">
                             {{ Auth::user()->name }}
                         </a>
                     @endguest
@@ -166,7 +166,7 @@
                                                     <tr>
                                                         <td class="si-pic">
                                                             <a href="{{ route('shop.show', $item->model->slug) }}">
-                                                                <img src="{{ asset('storage/' . $item->model->image) }}"
+                                                                <img src="{{ secure_asset('storage/' . $item->model->image) }}"
                                                                     class="img-popup-cart" alt="null">
                                                             </a>
                                                         </td>
@@ -409,16 +409,16 @@
     <!-- Footer Section End -->
 
     <!-- Js Plugins -->
-    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.countdown.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.nice-select.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.zoom.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.dd.min.js') }}"></script>
-    <script src="{{ asset('js/jquery.slicknav.js') }}"></script>
-    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
+    <script src="{{ secure_asset('js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ secure_asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ secure_asset('js/jquery-ui.min.js') }}"></script>
+    <script src="{{ secure_asset('js/jquery.countdown.min.js') }}"></script>
+    <script src="{{ secure_asset('js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ secure_asset('js/jquery.zoom.min.js') }}"></script>
+    <script src="{{ secure_asset('js/jquery.dd.min.js') }}"></script>
+    <script src="{{ secure_asset('js/jquery.slicknav.js') }}"></script>
+    <script src="{{ secure_asset('js/owl.carousel.min.js') }}"></script>
+    <script src="{{ secure_asset('js/main.js') }}"></script>
     @yield('js')
 </body>
 

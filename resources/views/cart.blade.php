@@ -50,7 +50,7 @@
                                         <tr>
                                             <td class="cart-pic first-row">
                                                 <a href="{{ route('shop.show', $item->model->slug) }}">
-                                                    <img src="{{ asset('storage/' . $item->model->image) }}"
+                                                    <img src="{{ secure_asset('storage/' . $item->model->image) }}"
                                                         class="img-view-cart" alt="null">
                                                 </a>
                                             </td>
