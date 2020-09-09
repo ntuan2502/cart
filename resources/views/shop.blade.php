@@ -73,8 +73,7 @@
                                             <ul>
                                                 <li class="w-icon active">
                                                     <a href="#">
-                                                        <form action="{{ route('cart.store') }}" id="addToCart"
-                                                            method="POST">
+                                                        <form action="{{ route('cart.store') }}" method="POST">
                                                             @csrf
                                                             <input type="hidden" name="id" value="{{ $product->id }}">
                                                             <input type="hidden" name="name" value="{{ $product->name }}">
